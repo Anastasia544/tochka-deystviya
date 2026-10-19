@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f7f5f1">
+<title>Что именно мешает вам действовать? — диагностический тест</title>
+<style>
+:root{
+  --bg:#f7f5f1;--paper:#fffefa;--ink:#242c35;--muted:#707780;--line:#e7e3dc;
+  --blue:#4568d8;--blue-dark:#304eaf;--lav:#e9eaff;--peach:#ffeadb;--mint:#e0f1e9;
+  --shadow:0 18px 55px rgba(39,48,67,.08);--radius:22px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 10% 0%,#eeeefe 0,transparent 30rem),var(--bg);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.55}
+button{font:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid #9aaaf8;outline-offset:3px}
+.wrap{width:min(100% - 32px,920px);margin:0 auto}
+header{padding:24px 0 14px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:750;letter-spacing:-.02em}
+.brand-mark{width:36px;height:36px;border-radius:12px;background:var(--blue);color:white;display:grid;place-items:center;font-size:18px}
+.top-note{font-size:12px;color:var(--muted)}
+main{padding:30px 0 76px}
+.eyebrow{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.13em;color:var(--blue);margin-bottom:14px}
+h1{font-size:clamp(34px,6vw,58px);line-height:1.04;letter-spacing:-.055em;margin:0 0 18px;max-width:760px}
+h2{font-size:clamp(24px,4vw,34px);line-height:1.15;letter-spacing:-.035em;margin:0 0 12px}
+.lead{font-size:18px;color:#555f6b;max-width:700px;margin:0 0 24px}
+.hero{display:grid;grid-template-columns:1.35fr .65fr;gap:28px;align-items:center;margin:25px 0 28px}
+.hero-art{min-height:230px;border-radius:28px;background:linear-gradient(145deg,#e7e8ff,#f8e5d8);position:relative;overflow:hidden;display:grid;place-items:center}
+.orbit{width:160px;height:160px;border:1px solid rgba(69,104,216,.28);border-radius:50%;position:absolute}
+.orbit.two{width:210px;height:210px;border-style:dashed}
+.core{width:94px;height:94px;border-radius:30px;background:var(--blue);color:white;display:grid;place-items:center;font-size:36px;box-shadow:0 18px 36px #4568d844;transform:rotate(-8deg)}
+.float{position:absolute;padding:10px 13px;border-radius:14px;background:#fffefa;box-shadow:0 8px 22px #26304a12;font-size:12px;font-weight:700}
+.f1{top:24px;left:18px}.f2{right:14px;top:68px}.f3{bottom:22px;left:35px}
+.panel{background:var(--paper);border:1px solid rgba(231,227,220,.9);border-radius:var(--radius);padding:clamp(22px,4vw,36px);box-shadow:var(--shadow)}
+.pill-row{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0}
+.pill{font-size:12px;background:#f0effb;padding:7px 11px;border-radius:99px;color:#4d5680;font-weight:700}
+.notice{background:#f5f4ff;border-left:3px solid #8b91e8;border-radius:0 12px 12px 0;padding:15px 17px;color:#555c70;font-size:14px;margin:22px 0}
+.btn{border:0;border-radius:14px;background:var(--blue);color:white;font-weight:750;padding:14px 22px;transition:.18s;display:inline-flex;align-items:center;justify-content:center;gap:9px}
+.btn:hover{background:var(--blue-dark);transform:translateY(-1px)}
+.btn.secondary{background:#f0effb;color:#35467f}.btn.secondary:hover{background:#e5e4fa}
+.btn.ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.start-actions{display:flex;gap:10px;flex-wrap:wrap}
+.mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+.mini{padding:16px;border:1px solid var(--line);border-radius:16px;background:#fff}
+.mini strong{display:block;font-size:20px;letter-spacing:-.03em}.mini span{font-size:12px;color:var(--muted)}
+.hidden{display:none!important}
+.contact-fields{display:grid;gap:16px;margin-top:24px}
+.contact-fields label{display:grid;gap:7px;font-weight:750;font-size:14px}
+.contact-fields input{width:100%;padding:14px 15px;border:1px solid var(--line);border-radius:13px;background:#fffefa;color:var(--ink);font:inherit;font-weight:450}
+.contact-fields input:focus{outline:3px solid #e1e5ff;border-color:var(--blue)}
+.optional{font-weight:450;color:var(--muted);font-size:12px}
+.consent-row{display:flex;gap:10px;align-items:flex-start;margin-top:20px;color:#555f6b;font-size:13px}
+.consent-row input{margin-top:5px;accent-color:var(--blue);flex:0 0 auto}
+.privacy-note{font-size:12px;color:var(--muted);margin-top:12px}
+
+.progress-top{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:13px;color:var(--muted);margin-bottom:10px}
+.progress-track{height:7px;background:#e9e7e2;border-radius:99px;overflow:hidden;margin-bottom:30px}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#4568d8,#8586e8);border-radius:99px;transition:width .25s}
+.q-label{color:var(--blue);font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px}
+.question{font-size:clamp(23px,4vw,31px);font-weight:700;line-height:1.28;letter-spacing:-.03em;margin:0 0 25px}
+.options{display:grid;gap:10px}
+.option{display:flex;align-items:center;gap:14px;text-align:left;padding:14px 16px;border:1px solid var(--line);background:#fff;border-radius:15px;color:var(--ink);transition:.15s}
+.option:hover{border-color:#b8c2f4;background:#fafaff}
+.option.selected{border-color:var(--blue);background:#f0f1ff;box-shadow:inset 0 0 0 1px var(--blue)}
+.opt-num{width:34px;height:34px;flex:0 0 34px;border-radius:11px;display:grid;place-items:center;background:#f1f0ec;font-weight:800;color:#555e69}
+.option.selected .opt-num{background:var(--blue);color:white}
+.opt-text{font-weight:650}.opt-sub{display:block;color:var(--muted);font-size:12px;font-weight:450;margin-top:1px}
+.quiz-nav{display:flex;justify-content:space-between;gap:12px;margin-top:28px;padding-top:20px;border-top:1px solid var(--line)}
+.error{color:#b34d43;font-size:13px;margin-top:12px;min-height:20px}
+.results-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}
+.result-kicker{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--blue);font-weight:800;margin-bottom:8px}
+.score-badge{min-width:100px;text-align:center;border-radius:18px;background:var(--lav);padding:15px}
+.score-badge strong{display:block;font-size:31px;letter-spacing:-.04em;line-height:1.1}.score-badge span{font-size:11px;color:#565e87}
+.result-summary{color:#59616c;margin:12px 0 24px}
+.chart-card{border:1px solid var(--line);border-radius:18px;padding:18px;background:#fff;margin:22px 0}
+.chart-title{font-weight:800;margin-bottom:16px}
+.bar-list{display:grid;gap:15px}
+.bar-head{display:flex;justify-content:space-between;gap:10px;font-size:13px;margin-bottom:7px}
+.bar-head strong{font-weight:750}
+.bar-track{height:10px;background:#efeee9;border-radius:99px;overflow:hidden}
+.bar-fill{height:100%;border-radius:99px;transition:width .7s ease}
+.level{font-size:11px;color:var(--muted);margin-top:5px}
+.mechanism-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:18px 0}
+.mechanism{border:1px solid var(--line);border-radius:17px;padding:17px;background:#fff}
+.mechanism.primary{border:1.5px solid #8292eb;background:#f8f8ff}
+.mechanism h3{font-size:15px;margin:0 0 8px}.mechanism p{font-size:13px;color:#626a75;margin:0 0 10px}
+.mechanism .m-score{font-weight:800;font-size:13px;color:var(--blue)}
+.section-title{margin:30px 0 12px;font-size:19px;letter-spacing:-.02em}
+.recommendation{padding:20px;border-radius:18px;background:#e9f4ee;border:1px solid #d8e9df}
+.recommendation h3{margin:0 0 8px;font-size:17px}.recommendation p{margin:0;color:#4d6258}
+.report-card{border:1px solid var(--line);border-radius:18px;padding:clamp(18px,3vw,26px);background:#fff;margin:14px 0}
+.report-card h3{font-size:21px;letter-spacing:-.025em;margin:0 0 6px}.report-score{font-size:13px;color:var(--blue);font-weight:800;margin-bottom:17px}
+.report-card p{color:#515b66;margin:12px 0}.report-card h4{font-size:15px;margin:22px 0 6px}.report-card ol{padding-left:22px;color:#515b66}.report-card li{padding:3px 0 5px}
+.practice-cta{margin-top:30px;padding:clamp(22px,4vw,34px);border-radius:22px;background:linear-gradient(140deg,#f0efff,#fff2e8);border:1px solid #e4e0f4}
+.practice-cta h2{font-size:clamp(24px,4vw,31px);margin-bottom:14px}.practice-cta p{color:#555e69}
+.cta-bottom{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin-top:24px}.price{font-size:28px;font-weight:850;letter-spacing:-.04em;display:block}.price-note,.cta-footnote{font-size:12px;color:var(--muted)}.cta-footnote{margin-bottom:0}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.disclaimer{font-size:12px;color:var(--muted);margin-top:24px;padding-top:18px;border-top:1px solid var(--line)}
+footer{padding:20px 0 30px;text-align:center;color:#858b91;font-size:12px}
+@media(max-width:680px){.hero{grid-template-columns:1fr}.hero-art{min-height:190px;order:-1}.mini-grid{grid-template-columns:1fr 1fr}.mini:last-child{grid-column:span 2}.panel{padding:22px 18px}.mechanism-grid{grid-template-columns:1fr}.results-head{align-items:center}.score-badge{min-width:84px;padding:12px}.top-note{display:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand"><div class="brand-mark">↗</div><span>Точка действия</span></div>
+  <div class="top-note">Самоанализ · около 5 минут</div>
+</header>
+<main>
+<section id="intro">
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Диагностический тест</div>
+      <h1>Что именно мешает вам действовать?</h1>
+      <p class="lead">5 психологических механизмов, из-за которых вы можете хотеть перемен, но продолжать откладывать их.</p>
+      <div class="pill-row"><span class="pill">25 утверждений</span><span class="pill">5 шкал</span><span class="pill">Персональный результат</span></div>
+      <div class="start-actions"><button class="btn" id="startBtn">Начать тест <span aria-hidden="true">→</span></button></div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="orbit"></div><div class="orbit two"></div><div class="core">✳</div>
+      <div class="float f1">Осознанность</div><div class="float f2">Ваш темп</div><div class="float f3">Следующий шаг →</div>
+    </div>
+  </div>
+  <div class="panel">
+    <h2 style="font-size:23px">Как проходит тест</h2>
+    <p style="color:#626a75;margin-bottom:0">Выберите, насколько каждое утверждение похоже на ваше обычное поведение. Здесь нет правильных или неправильных ответов — важнее всего честность с собой.</p>
+    <div class="mini-grid">
+      <div class="mini"><strong>0–4</strong><span>Шкала ответа</span></div>
+      <div class="mini"><strong>5</strong><span>Механизмов поведения</span></div>
+      <div class="mini"><strong>20</strong><span>Максимум баллов за шкалу</span></div>
+    </div>
+    <div class="notice">Этот тест не определяет, «что с вами не так», и не является клинической диагностикой. Он помогает заметить привычные реакции в ситуациях неопределённости, страха или внутреннего сопротивления.</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:0">После прохождения теста ваши контактные данные и результаты будут сохранены на сервере и доступны только владельцу сайта через закрытую административную страницу.</p>
+  </div>
+</section>
+
+
+<section id="contactStep" class="panel hidden">
+  <div class="eyebrow">Перед началом</div>
+  <h2>Как к вам обращаться?</h2>
+  <p class="lead" style="font-size:16px">Заполните контактные данные, чтобы сохранить результат теста. Email указывать необязательно.</p>
+  <form id="contactForm">
+    <div class="contact-fields">
+      <label for="contactName">Имя <span aria-hidden="true">*</span>
+        <input id="contactName" name="name" autocomplete="given-name" maxlength="100" required placeholder="Ваше имя">
+      </label>
+      <label for="contactEmail">Email <span class="optional">(необязательно)</span>
+        <input id="contactEmail" name="email" type="email" autocomplete="email" maxlength="254" placeholder="name@example.com">
+      </label>
+      <label for="contactInstagram">Ник в Instagram <span aria-hidden="true">*</span>
+        <input id="contactInstagram" name="instagram" maxlength="100" required placeholder="@username">
+      </label>
+    </div>
+    <label class="consent-row"><input id="contactConsent" type="checkbox" required>
+      <span>Я согласен(на) на обработку указанных контактных данных и ответов теста для сохранения и анализа результата.</span>
+    </label>
+    <p class="privacy-note">Контактные данные и результаты доступны только владельцу сайта через закрытую административную страницу. Они не показываются в вашем результате.</p>
+    <div class="error" id="contactError" role="status"></div>
+    <div class="quiz-nav">
+      <button class="btn ghost" type="button" id="contactBackBtn">← Назад</button>
+      <button class="btn" type="submit">Перейти к тесту →</button>
+    </div>
+  </form>
+</section>
+
+<section id="quiz" class="panel hidden" aria-live="polite">
+  <div class="progress-top"><span id="progressLabel">Вопрос 1 из 25</span><span id="progressPct">4%</span></div>
+  <div class="progress-track" role="progressbar" aria-label="Прогресс теста" aria-valuemin="0" aria-valuemax="25" aria-valuenow="0" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="q-label" id="questionNumber">Вопрос 01</div>
+  <h2 class="question" id="questionText"></h2>
+  <div class="options" id="options"></div>
+  <div class="error" id="error" role="status"></div>
+  <div class="quiz-nav">
+    <button class="btn ghost" id="prevBtn">← Назад</button>
+    <button class="btn" id="nextBtn" disabled>Далее →</button>
+  </div>
+</section>
+
+<section id="results" class="panel hidden" aria-live="polite">
+  <div class="results-head">
+    <div><div class="result-kicker">Ваш результат</div><h2 id="resultTitle">Ваш ведущий механизм</h2></div>
+    <div class="score-badge"><strong id="topScore">0/20</strong><span>баллов по шкале</span></div>
+  </div>
+  <p class="result-summary" id="resultSummary"></p>
+  <div class="chart-card">
+    <div class="chart-title">Ваш профиль по пяти шкалам</div>
+    <div class="bar-list" id="bars"></div>
+  </div>
+  <h3 class="section-title">Все пять результатов</h3>
+  <p style="color:#626a75;margin-top:-4px">Показаны все шкалы, а подробно разбираются два ведущих результата — так проще сосредоточиться на главном, не сводя всю картину к одному баллу.</p>
+  <div class="mechanism-grid" id="mechanisms"></div>
+  <div id="lowScoreNote" class="notice hidden"></div>
+  <h3 class="section-title" id="deepDiveTitle">Подробнее о двух ведущих механизмах</h3>
+  <div id="deepDives"></div>
+  <section class="practice-cta">
+    <div class="result-kicker">Следующий шаг</div><h2>Хотите перейти от понимания к действию?</h2>
+    <p>Вы уже сделали первый шаг — заметили, что может вас останавливать. Но одного понимания иногда недостаточно: привычные сомнения, тревога или желание отложить дело могут возвращаться.</p>
+    <p>Практикум <strong>«Мне можно больше»</strong> — это 7 дней последовательной практической работы с внутренними барьерами. Вы сможете разобраться, чего действительно хотите, заметить мысли и реакции, научиться отличать факты от тревожных предположений и выбрать посильный шаг к важной цели.</p>
+    <p><strong>Формат:</strong> короткие занятия и практические задания. Вы работаете со своей конкретной ситуацией и двигаетесь в собственном темпе.</p>
+    <div class="cta-bottom"><div><span class="price">990 ₽</span><span class="price-note">стоимость участия</span></div><a class="btn" id="practiceLink" href="#">Начать — мне можно больше ↗</a></div>
+    <p class="cta-footnote" id="ctaFootnote">Ссылка на практикум пока не настроена. Её можно добавить в код сайта перед публикацией.</p>
+  </section>
+  <div class="disclaimer">Результаты отражают ваши ответы в данный момент и не являются диагнозом. Пороговые значения и правило разницы в 0–2 балла — удобная логика выдачи, а не научно подтверждённая граница между типами. Если переживания сильно мешают повседневной жизни, можно обсудить их со специалистом.</div>
+  <div class="actions"><button class="btn" id="restartBtn">Пройти заново ↻</button><button class="btn secondary" id="saveBtn">Сохранить результат</button></div>
+</section>
+</main>
+<footer>Точка действия · пространство для бережного самоанализа</footer>
+</div>
+<script>
+const questions = [
+ {t:"Если я понимаю, что могу сделать что-то лучше, но есть вероятность критики, я часто предпочитаю ничего не менять.",s:0},
+ {t:"Я могу долго готовиться к важному делу, потому что мне кажется, что ещё недостаточно хорошо подготовилась.",s:1},
+ {t:"Перед важным решением я могу долго взвешивать варианты, даже когда информации уже достаточно.",s:2},
+ {t:"Когда дело становится эмоционально напряжённым или вызывает страх, я нахожу другие дела и откладываю его.",s:3},
+ {t:"Я могу хотеть перемен, но одновременно переживать, что потеряю привычную стабильность.",s:4},
+ {t:"Мне трудно сделать шаг, если я не уверена, как на него отреагируют окружающие.",s:0},
+ {t:"Я часто думаю: «Сначала нужно сделать идеально, а уже потом показывать результат».",s:1},
+ {t:"Я могу несколько раз менять решение, потому что постоянно нахожу новые «за» и «против».",s:2},
+ {t:"Когда задача кажется сложной, мне проще заняться чем-нибудь другим.",s:3},
+ {t:"Когда появляется возможность изменить жизнь к лучшему, я замечаю не только плюсы, но и то, что могу потерять или к чему придётся привыкать.",s:4},
+ {t:"Я часто думаю о том, что обо мне скажут или подумают другие.",s:0},
+ {t:"Мне трудно начать дело, если понимаю, что результат может оказаться несовершенным.",s:1},
+ {t:"Мне бывает трудно довериться собственному решению без дополнительного подтверждения.",s:2},
+ {t:"Я часто откладываю неприятный разговор, важное сообщение или другое действие, которое вызывает напряжение.",s:3},
+ {t:"Я могу хотеть перемен, но одновременно находить убедительные причины оставить всё как есть.",s:4},
+ {t:"Мне бывает трудно проявлять себя, если рядом находятся люди, мнение которых для меня важно.",s:0},
+ {t:"Я иногда настолько повышаю требования к себе, что проще вообще не начинать.",s:1},
+ {t:"Я могу продолжать анализировать ситуацию уже после того, как решение фактически принято.",s:2},
+ {t:"Я часто говорю себе: «Сделаю завтра, когда будет больше сил/времени/настроения».",s:3},
+ {t:"Когда что-то начинает получаться, я могу одновременно радоваться результату и тревожиться из-за новых ожиданий или ответственности.",s:4},
+ {t:"Я могу отказаться от хорошей возможности, если существует риск выглядеть некомпетентной.",s:0},
+ {t:"Если результат моей работы будут оценивать, я стараюсь довести его до максимально высокого уровня, даже если это требует слишком много времени.",s:1},
+ {t:"Мне трудно принять решение, если нет гарантии, что я выберу правильный вариант.",s:2},
+ {t:"Когда я испытываю тревогу или дискомфорт, мне хочется сначала избавиться от этого состояния, а уже потом действовать.",s:3},
+ {t:"Я могу одновременно хотеть перемен и переживать из-за того, что они изменят привычный уклад моей жизни.",s:4}
+];
+const scales = [
+ {name:"Зависимость от внешней оценки",short:"Внешняя оценка",color:"#6279df",desc:"Мнение и возможная реакция окружающих могут заметно влиять на решения и готовность проявлять себя."},
+ {name:"Перфекционизм",short:"Перфекционизм",color:"#e59b65",desc:"Высокие требования к результату могут затруднять начало дела или мешать вовремя его завершить."},
+ {name:"Сомнение",short:"Сомнение",color:"#8c79d8",desc:"Стремление выбрать безошибочный вариант может удерживать вас в повторном анализе и поиске дополнительных подтверждений."},
+ {name:"Избегание",short:"Избегание",color:"#4baf9b",desc:"Когда действие вызывает тревогу или дискомфорт, может возникать желание отвлечься и дождаться более подходящего состояния."},
+ {name:"Внутренний конфликт",short:"Внутренний конфликт",color:"#d77891",desc:"Вы можете одновременно хотеть перемен и стремиться сохранить привычную стабильность, безопасность или одобрение близких."}
+];
+const labels = ["Почти никогда","Редко","Иногда","Часто","Почти всегда"];
+let order = questions.map((_,i)=>i);
+let answers = Array(questions.length).fill(null);
+let current = 0;
+let participant = null;
+let savedSubmission = false;
+const $ = id => document.getElementById(id);
+function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
+function begin(){
+ $("intro").classList.add("hidden");$("quiz").classList.add("hidden");$("results").classList.add("hidden");
+ $("contactStep").classList.remove("hidden");$("contactError").textContent="";
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function startQuizWithContact(){
+ participant={
+   name:$("contactName").value.trim(),
+   email:$("contactEmail").value.trim(),
+   instagram:$("contactInstagram").value.trim().replace(/^@+/,"")
+ };
+ answers=Array(questions.length).fill(null);current=0;savedSubmission=false;
+ order=shuffle(questions.map((_,i)=>i));
+ $("contactStep").classList.add("hidden");$("results").classList.add("hidden");$("quiz").classList.remove("hidden");
+ renderQuestion();window.scrollTo({top:0,behavior:"smooth"});
+}
+function renderQuestion(){
+ const q=questions[order[current]];
+ $("progressLabel").textContent=`Вопрос ${current+1} из ${questions.length}`;
+ $("progressPct").textContent=`${Math.round((current+1)/questions.length*100)}%`;
+ $("progressFill").style.width=`${(current+1)/questions.length*100}%`;
+ $("progressBar").setAttribute("aria-valuenow",current+1);
+ $("questionNumber").textContent=`Вопрос ${String(current+1).padStart(2,"0")}`;
+ $("questionText").textContent=q.t;
+ $("options").innerHTML="";
+ labels.forEach((label,val)=>{
+   const b=document.createElement("button");b.type="button";b.className="option"+(answers[order[current]]===val?" selected":"");
+   b.setAttribute("aria-pressed",answers[order[current]]===val?"true":"false");
+   b.innerHTML=`<span class="opt-num">${val}</span><span class="opt-text">${label}<span class="opt-sub">${["Так бывает крайне редко","Обычно не свойственно мне","Бывает время от времени","Так происходит довольно часто","Это очень похоже на меня"][val]}</span></span>`;
+   b.addEventListener("click",()=>{answers[order[current]]=val;renderQuestion();});$("options").appendChild(b);
+ });
+ $("prevBtn").disabled=current===0;
+ $("nextBtn").disabled=answers[order[current]]===null;
+ $("nextBtn").textContent=current===questions.length-1?"Посмотреть результат →":"Далее →";
+ $("error").textContent="";
+}
+function level(score){if(score<=5)return {name:"Выражен слабо",desc:"Сейчас этот механизм, судя по ответам, проявляется редко."};if(score<=10)return {name:"Периодическое влияние",desc:"В некоторых ситуациях этот механизм может влиять на ваши решения."};if(score<=15)return {name:"Заметное влияние",desc:"Этот механизм может заметно затруднять действия в важных для вас ситуациях."};return {name:"Сильно выражен",desc:"Сейчас это может быть одним из основных препятствий для действий."};}
+const reports = [
+ {title:"Ваш ведущий барьер — зависимость от внешней оценки",intro:"Похоже, для вас может быть особенно важно, как окружающие воспримут ваши решения, слова и поступки. Прежде чем сделать шаг, вы можете мысленно проверять себя: «А что обо мне подумают?», «А вдруг меня не поймут?», «А если я буду выглядеть глупо?»",body:"Из-за этого даже простые действия иногда превращаются в сложную внутреннюю задачу. Вы можете долго готовиться к разговору, откладывать публикацию поста, не решаться предложить свою идею, попросить о повышении или начать что-то новое. Возможно, вы хорошо чувствуете других людей, стараетесь никого не обидеть и умеете учитывать чужое мнение. Это может быть вашим преимуществом. Трудности начинаются тогда, когда чужая оценка становится важнее ваших собственных целей и желаний.",inside:"Вы хотите действовать, но одновременно пытаетесь заранее исключить вероятность критики, неодобрения или неловкости. Однако невозможно полностью контролировать чужие реакции. В результате вы можете выбирать не то, чего действительно хотите, а то, что кажется более безопасным в глазах окружающих. Постепенно возникает замкнутый круг: вы откладываете действие, испытываете временное облегчение, но затем можете сожалеть, что снова не сделали важный для себя шаг.",qs:["Чего я хочу на самом деле?","Чьего неодобрения я опасаюсь и что именно предполагаю услышать?","Что бы я сделала или сделал, если бы не требовалось получить одобрение всех?"],end:"Выберите небольшой шаг, который соответствует вашим ценностям, даже если кто-то может с ним не согласиться. Ваша задача — не перестать учитывать мнение людей, а научиться учитывать и собственное."},
+ {title:"Ваш ведущий барьер — перфекционизм",intro:"Похоже, вам может быть трудно начинать дело, если вы не уверены, что сможете выполнить его достаточно хорошо. Внутри могут звучать мысли: «Нужно ещё подготовиться», «Пока результат неидеальный», «Сначала надо всё продумать», «Я начну, когда буду полностью готова или готов».",body:"Вы можете предъявлять к себе высокие требования, замечать ошибки, стремиться к качеству и не любить делать что-то спустя рукава. Сами по себе эти качества не являются проблемой. Они помогают развиваться, когда не мешают действовать. Сложности начинаются, когда планка становится настолько высокой, что первый шаг постоянно откладывается. Вы тратите много времени на подготовку, переделываете уже готовое, сравниваете себя с более опытными людьми или отказываетесь от идеи, потому что пока не можете реализовать её на желаемом уровне.",inside:"Иногда стремление к идеалу помогает избежать неприятных переживаний: критики, стыда, разочарования или ощущения собственной несостоятельности. Пока вы готовитесь, ещё не нужно проверять результат в реальности. Но у этой стратегии есть цена: можно много думать, планировать и улучшать, однако так и не получить опыт, который появляется только после действия.",qs:["Как выглядит минимально приемлемый результат?","Что действительно необходимо сделать сейчас, а что можно улучшить позже?","Какой вариант я могу завершить за 20–30 минут?"],end:"Попробуйте правило первого черновика: сначала создайте рабочую версию, а затем решайте, что действительно нужно исправить. Ваша цель — не отказаться от качества, а перестать требовать идеального результата до того, как вы начали."},
+ {title:"Ваш ведущий барьер — сомнение",intro:"Похоже, вам может быть трудно двигаться дальше, пока вы не уверены, что выбрали правильный вариант. Вы можете долго взвешивать аргументы, искать дополнительные подтверждения и возвращаться к решению, которое уже почти приняли.",body:"Возможно, вы умеете замечать нюансы, внимательно относитесь к последствиям и не любите принимать решения наспех. Это полезные качества. Трудности начинаются, когда анализ продолжается даже при достаточном количестве информации: вы откладываете выбор, меняете решение или ждёте гарантии, которую невозможно получить заранее.",inside:"Повторный анализ иногда создаёт ощущение контроля и помогает ненадолго снизить неопределённость. Но полной гарантии обычно нет. В результате вы можете тратить силы на попытки исключить все риски вместо того, чтобы выбрать достаточно хороший вариант и получить новый опыт.",qs:["Какие факты мне уже известны?","Какая информация действительно могла бы изменить мой выбор?","Какое решение я могу принять сейчас, если допускаю возможность скорректировать его позже?"],end:"Выберите 2–3 критерия решения и установите срок, когда остановите анализ. Если решение обратимо, попробуйте воспринимать его как следующий шаг, а не окончательный вердикт на всю жизнь."},
+ {title:"Ваш ведущий барьер — избегание",intro:"Похоже, вы можете откладывать важные действия, когда они вызывают тревогу, напряжение, дискомфорт или страх неудачи. Возможно, вы говорите себе: «Сначала мне нужно успокоиться», «Сейчас неподходящий момент», «Завтра я точно этим займусь», «Когда появится настроение, всё пойдёт легче».",body:"Иногда вы действительно нуждаетесь в отдыхе и восстановлении. Не каждое отложенное дело означает избегание. Но если одна и та же задача переносится снова и снова, стоит присмотреться к тому, какие переживания возникают при мысли о её выполнении. Например, вы можете откладывать неприятный разговор, не отправлять важное сообщение, избегать публичности, не начинать новый проект или отвлекаться на мелкие дела вместо главного.",inside:"Когда вы отказываетесь от пугающего действия, напряжение нередко уменьшается. Мозг запоминает это облегчение, и в следующий раз желание отложить задачу может возникнуть ещё быстрее. Так формируется круг: неприятное чувство → откладывание → временное облегчение → возвращение к нерешённой задаче. Чем дольше задача остаётся нерешённой, тем больше сил может уходить на переживания о ней.",qs:["Какого момента я избегаю больше всего?","Что я чувствую, когда представляю, что начинаю действовать?","Какую самую маленькую часть задачи я могу выполнить за 10 минут?"],end:"Не ставьте цель немедленно завершить всё дело. Начните с малого: откройте документ и набросайте три идеи или запишите, что хотите сказать в разговоре. Если задача связана с реальной опасностью, сначала позаботьтесь о безопасности. Ваша задача — различать необходимость восстановиться и привычку откладывать действие ради кратковременного облегчения."},
+ {title:"Ваш ведущий барьер — внутренний конфликт",intro:"Похоже, иногда вы одновременно хотите перемен и находите причины оставить всё как есть. Одна часть вас стремится к новому результату, а другая словно тормозит в самый важный момент.",body:"Вы можете ставить цель, воодушевляться, строить планы, а затем терять интерес, переключаться на другие задачи или откладывать то, что недавно казалось важным. Внутренний диалог может звучать так: «Мне это действительно нужно?», «А вдруг я зря стараюсь?», «Может быть, лучше ничего не менять?», «Что, если у меня получится, но придётся брать на себя больше ответственности?» Это не обязательно означает, что вы ленивы или недостаточно мотивированы. Иногда за противоречивым поведением стоят разные потребности: хочется развития, но одновременно важны безопасность, привычный образ жизни, одобрение близких или возможность не сталкиваться с неопределённостью.",inside:"Любое изменение требует не только усилий, но и отказа от чего-то привычного. Даже желанная цель может вызывать смешанные чувства. Например, вы хотите больше зарабатывать, но представляете дополнительную нагрузку; хотите проявляться публично, но опасаетесь критики; хотите изменить образ жизни, но не готовы расставаться с привычным способом отдыхать. Поэтому полезно не бороться с собой, а разобраться, чего вы хотите и что пытаетесь сохранить.",qs:["Что хорошего появится в моей жизни, если я достигну этой цели?","Что изменится и может оказаться для меня непривычным?","Что я сохраняю благодаря тому, что пока ничего не меняю?","Как можно приблизиться к желаемому результату, не игнорируя реальные потребности и ограничения?"],end:"Не нужно заставлять себя немедленно отказаться от привычного. Попробуйте найти небольшой шаг, который учитывает и ваше желание перемен, и потребность в устойчивости. Ваша задача — не победить себя, а лучше понять собственные мотивы и выбрать направление осознанно."}
+];
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function calculate(){
+ const totals=scales.map((_,s)=>questions.reduce((sum,q,i)=>sum+(q.s===s?answers[i]:0),0));
+ const ranked=totals.map((score,i)=>({score,i})).sort((a,b)=>b.score-a.score),max=ranked[0].score;
+ const leaders=ranked.filter(x=>max-x.score<=2),low=totals.every(x=>x<=2);
+ $('topScore').textContent=`${max}/20`;
+ $('resultTitle').textContent=low?'Выраженного ведущего барьера не обнаружено':leaders.length>1?'У вас сочетание ведущих барьеров':`Ваш ведущий барьер — ${scales[ranked[0].i].name.toLowerCase()}`;
+ $('resultSummary').textContent=low?'По вашим ответам все пять механизмов сейчас выражены на низком уровне. Это не означает, что вам никогда не бывает трудно действовать: полезнее рассмотреть конкретную ситуацию, в которой вы откладывали важный шаг.':leaders.length>1?`Наиболее высокие результаты — ${leaders.map(x=>scales[x.i].name.toLowerCase()).join(' и ')}. Баллы отличаются не более чем на 2, поэтому стоит рассмотреть оба механизма.`:`${scales[ranked[0].i].name} — ваша самая высокая шкала по ответам. Это подсказка для самоанализа, а не окончательная характеристика личности.`;
+ $('bars').innerHTML='';ranked.forEach(({score,i})=>{const item=document.createElement('div');item.innerHTML=`<div class="bar-head"><strong>${esc(scales[i].name)}</strong><span>${score} / 20</span></div><div class="bar-track"><div class="bar-fill" style="width:${score*5}%;background:${scales[i].color}"></div></div><div class="level">${level(score).name}</div>`;$('bars').appendChild(item);});
+ $('mechanisms').innerHTML='';ranked.forEach(({score,i})=>{const el=document.createElement('article');el.className='mechanism'+(!low&&leaders.some(x=>x.i===i)?' primary':'');el.innerHTML=`<h3>${esc(scales[i].name)}${!low&&leaders.some(x=>x.i===i)?' · ведущий результат':''}</h3><p>${esc(scales[i].desc)}</p><div class="m-score">${score} из 20 · ${level(score).name}</div>`;$('mechanisms').appendChild(el);});
+ if(low){$('lowScoreNote').classList.remove('hidden');$('lowScoreNote').textContent='Если сейчас вы не видите выраженного барьера, вспомните конкретную ситуацию, в которой откладывали действие, и исследуйте именно её. Не нужно назначать себе «главный барьер».';$('deepDiveTitle').textContent='Как исследовать конкретную ситуацию';$('deepDives').innerHTML='<article class="report-card"><h3>Небольшое упражнение для самоанализа</h3><p>Вспомните одно дело, которое вы отложили, и ответьте письменно:</p><ol><li>Что именно я хотел(а) сделать?</li><li>Что происходило со мной непосредственно перед тем, как я отложил(а) это дело?</li><li>Какой небольшой и безопасный шаг я могу сделать теперь?</li></ol><p>Низкие баллы не означают, что у вас нет трудностей. Возможно, конкретная ситуация просто не отражена этими утверждениями.</p></article>';}else{$('lowScoreNote').classList.add('hidden');$('deepDiveTitle').textContent='Подробнее о двух ведущих механизмах';$('deepDives').innerHTML='';leaders.slice(0,2).forEach((x,n)=>{const r=reports[x.i],el=document.createElement('article');el.className='report-card';el.innerHTML=`<div class="result-kicker">${n===0?'Первый ведущий результат':'Второй ведущий результат'}</div><h3>${esc(r.title)}</h3><div class="report-score">Результат: ${x.score} из 20 баллов</div><p>${esc(r.intro)}</p><p>${esc(r.body)}</p><h4>Что может происходить внутри?</h4><p>${esc(r.inside)}</p><h4>С чего начать?</h4><p>Выберите одну конкретную ситуацию и ответьте письменно на вопросы:</p><ol>${r.qs.map(q=>`<li>${esc(q)}</li>`).join('')}</ol><p>${esc(r.end)}</p>`;$('deepDives').appendChild(el);});}
+ $('quiz').classList.add('hidden');$('results').classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'});
+ saveSubmission(totals, ranked, leaders, low).catch(err=>{
+   console.error("Не удалось сохранить результат на сервере",err);
+   const msg=document.createElement("p");
+   msg.className="notice";
+   msg.textContent="Не удалось сохранить результат на сервере. Проверьте подключение и сообщите владельцу сайта. Результат теста остаётся доступен на этой странице.";
+   $("results").insertBefore(msg,$("results").firstChild);
+ });
+}
+async function saveSubmission(totals, ranked, leaders, low){
+ if(savedSubmission) return;
+ const payload={
+   name:participant?.name || "",
+   email:participant?.email || "",
+   instagram:participant?.instagram || "",
+   scores:scales.map((s,i)=>({name:s.name,score:totals[i],level:level(totals[i]).name})),
+   leading_results:low?[]:leaders.slice(0,2).map(x=>({name:scales[x.i].name,score:x.score})),
+   low_scores:low,
+   answers:order.map((questionIndex)=>({question:questions[questionIndex].t,score:answers[questionIndex]}))
+ };
+ const response=await fetch("/api/submissions",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+ if(!response.ok) throw new Error("HTTP "+response.status);
+ savedSubmission=true;
+}
+const PRACTICUM_URL = ""; // Добавьте сюда реальную ссылку на практикум перед публикацией.
+if(PRACTICUM_URL){$("practiceLink").href=PRACTICUM_URL;$("ctaFootnote").classList.add("hidden");}else{$("practiceLink").addEventListener("click",e=>{e.preventDefault();alert("Ссылка на практикум ещё не добавлена. Укажите адрес в переменной PRACTICUM_URL в коде сайта.");});}
+$("contactForm").addEventListener("submit",event=>{
+ event.preventDefault();
+ const name=$("contactName").value.trim();
+ const instagram=$("contactInstagram").value.trim().replace(/^@+/,"");
+ const email=$("contactEmail").value.trim();
+ if(!name || !instagram){$("contactError").textContent="Заполните имя и ник Instagram.";return;}
+ if(email && !$("contactEmail").checkValidity()){$("contactError").textContent="Проверьте формат email.";return;}
+ if(!$("contactConsent").checked){$("contactError").textContent="Для продолжения подтвердите согласие на обработку данных.";return;}
+ $("contactInstagram").value=instagram;
+ startQuizWithContact();
+});
+$("contactBackBtn").addEventListener("click",()=>{$("contactStep").classList.add("hidden");$("intro").classList.remove("hidden");window.scrollTo({top:0,behavior:"smooth"});});
+$("startBtn").addEventListener("click",begin);
+$("prevBtn").addEventListener("click",()=>{if(current>0){current--;renderQuestion();}});
+$("nextBtn").addEventListener("click",()=>{if(answers[order[current]]===null){$("error").textContent="Выберите один вариант ответа, чтобы продолжить.";return;}if(current<questions.length-1){current++;renderQuestion();}else calculate();});
+$("restartBtn").addEventListener("click",()=>{$("results").classList.add("hidden");$("contactStep").classList.add("hidden");$("intro").classList.remove("hidden");window.scrollTo({top:0,behavior:"smooth"});});
+$("saveBtn").addEventListener("click",()=>{
+ const totals=scales.map((_,s)=>questions.reduce((sum,q,i)=>sum+(q.s===s?answers[i]:0),0));
+ const ranked=totals.map((score,i)=>({score,i})).sort((a,b)=>b.score-a.score);
+ const max=ranked[0].score,leaders=ranked.filter(x=>max-x.score<=2),low=totals.every(x=>x<=2);
+ const lines=["Результат теста «Что именно мешает вам действовать?»",`Имя: ${participant?.name||""}`,"",`Итог: ${low?"выраженного ведущего барьера не обнаружено":leaders.map(x=>scales[x.i].name).join(" + ")}`,"",...ranked.map(x=>`${scales[x.i].name}: ${x.score}/20 — ${level(x.score).name}`),"","Тест предназначен для самоанализа и не является клинической диагностикой."];
+ const blob=new Blob(["\uFEFF"+lines.join("\n")],{type:"text/plain;charset=utf-8"});
+ const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="moi-rezultaty-testa.txt";document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+});
+</script>
+</body>
+</html>
